@@ -1,0 +1,282 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 95%;
+  padding-left: 30px;
+  z-index: 0;
+}
+
+.table_container {
+  width: 100%;
+}
+
+.notFound {
+  margin-top: 30px;
+  padding-bottom: 40%;
+}
+
+.group-btn {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  justify-content: space-between;
+}
+
+.action-buttons {
+  background-color: #fafbfc;
+  color: #2a283a;
+  width: 100px;
+  height: 35px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.action-buttons:hover,
+.action-buttons.active {
+  border-bottom: 5px solid #36539a;
+}
+
+.action_button {
+  background: #243466;
+  color: white;
+}
+
+.count {
+  background-color: #e2ebf3;
+  display: inline;
+  border-radius: 20px;
+  margin: 4px;
+  padding: 3px;
+}
+
+.noData {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.refresh {
+  margin-right: 1px;
+  justify-self: flex-end;
+  display: flex;
+  flex-direction: row;
+}
+
+.refreshIcon {
+  padding-right: 3px;
+  margin-bottom: 2px;
+  margin-right: 5px;
+}
+
+.table {
+  margin-top: -15px;
+  width: 100%;
+}
+
+/* .table tbody tr {
+  line-height: 5px;
+} */
+
+.fa {
+  padding-right: 3px;
+  margin-bottom: 2px;
+  margin-right: 5px;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 80%;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.mobilefooter {
+  display: none;
+}
+
+::-webkit-input-placeholder {
+  padding-left: 5px;
+}
+
+.pendingInfoVerification {
+  display: none;
+}
+
+@media only screen and (max-width: 720px) {
+  .container {
+    background: white;
+    top: 0;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    /* height: 75%; */
+    margin: 0px 10px 0px 0px;
+    padding: 0px 0px 0px 10px;
+    right: 0px;
+    /* flex: 1; */
+  }
+
+  .mobilecontent {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    background-color: white;
+    width: 100%;
+    padding-bottom: 20px;
+    height: 85%;
+  }
+
+  .pendingInfoVerification {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  .refresh {
+    display: none;
+  }
+
+  .filter-container {
+    display: none;
+  }
+
+  .button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .group-btn {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: space-between;
+  }
+
+  .action-buttons {
+    background: #f8f8f8;
+    border-radius: 5px;
+    color: #a5a3a3;
+    width: 114px;
+    height: 35px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .action-buttons.active {
+    width: 100px;
+    height: 35px;
+    border-style: none;
+    background: #243466;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .pending_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 250px;
+    margin-top: 10px;
+  }
+
+  .nameIcon {
+    display: flex;
+  }
+
+  .item-detail {
+    line-height: 30px;
+    margin-left: 20px;
+  }
+
+  .table {
+    display: none;
+  }
+
+  .verifyDetail {
+    display: none;
+  }
+
+  .verifyButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 30px;
+    background: #243466;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .buttonwrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .verifyButton a {
+    text-decoration: none;
+  }
+
+  .viewDetailMobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+  }
+
+  .mobilefooter {
+    display: flex;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+  }
+
+  .datetime {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-top: 5px;
+    color: #b3adad;
+  }
+
+  .specialization {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1px;
+    color: #888888;
+    width: 200px;
+    height: 21px;
+  }
+
+  .container h2 {
+    margin-bottom: 0px;
+  }
+
+  .pagination {
+    /* position: absolute; */
+    bottom: 15px;
+  }
+}

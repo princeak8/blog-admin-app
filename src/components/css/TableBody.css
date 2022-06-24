@@ -1,0 +1,124 @@
+.pointer {
+  cursor: pointer;
+}
+
+.false-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 33px;
+  width: 120px;
+  height: 40px;
+  background-color: #d8dde2;
+  margin-top: 6px;
+  /* margin-right: 0px; */
+}
+
+.false-text {
+  position: relative;
+  color: #363530cc;
+  font-style: normal;
+  font-size: "DM Sans";
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.pending-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 33px;
+  width: 120px;
+  height: 40px;
+  background-color: #f9c5293b;
+  margin-top: 6px;
+}
+
+.pending-text {
+  position: relative;
+  color: #f9c529;
+  font-style: normal;
+  font-size: "DM Sans";
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.verified-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 33px;
+  width: 120px;
+  height: 40px;
+  background-color: rgb(20, 250, 20);
+  margin-top: 6px;
+}
+
+.verified-text {
+  position: relative;
+  color: green;
+  font-style: normal;
+  font-size: "DM Sans";
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.blocked-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 33px;
+  width: 120px;
+  height: 40px;
+  background-color: #ff00007a;
+  margin-top: 6px;
+}
+
+.blocked-text {
+  position: relative;
+  color: red;
+  font-style: normal;
+  font-size: "DM Sans";
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.view {
+  display: flex;
+  flex-direction: row;
+}
+
+.view div {
+  font-size: medium;
+}
+
+.accepted_count {
+  position: relative;
+  color: greenyellow;
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+  height: 20px;
+  width: 20px;
+  background-color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.rejected_count {
+  position: relative;
+  color: rgb(247, 83, 83);
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}

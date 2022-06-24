@@ -1,0 +1,30 @@
+.mobilefooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  /* right: 0;
+    bottom: 0; */
+  height: 65px;
+  background: #ffffff;
+  box-shadow: 0px 0px 20.86px rgba(45, 58, 58, 0.2);
+}
+
+.mobilefooter img {
+  height: 20px;
+  width: 20px;
+}
+
+.icontitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dot {
+  margin-top: 2px;
+  height: 0.2px;
+  width: 0.2px;
+}

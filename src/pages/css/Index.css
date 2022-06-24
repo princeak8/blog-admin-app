@@ -1,0 +1,48 @@
+.itembody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fafbfc;
+  /* height: 100%; */
+}
+
+.container-fluid {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 0px;
+  /* margin-top: 10px; */
+  width: 100%;
+  height: auto;
+}
+
+/* .sideBar {
+  background: red;
+
+} */
+
+.container h2 {
+  padding-top: 20px;
+}
+
+@media only screen and (max-width: 720px) {
+  /* For mobile phones: */
+  .container-fluid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* justify-content: center; */
+    /* align-items: center; */
+  }
+
+  /* .itembody {
+    top: 0;
+  } */
+
+  .itembody Header {
+    display: none;
+  }
+
+  .sideBar {
+    display: none;
+  }
+}

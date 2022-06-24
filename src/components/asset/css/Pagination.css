@@ -1,0 +1,14 @@
+.pointer {
+  cursor: pointer;
+}
+
+.total-pages {
+  padding-top: 7px;
+}
+
+.first {
+  padding-top: 7px;
+  padding-right: 10px;
+  color: #0d6efd;
+  cursor: pointer;
+}

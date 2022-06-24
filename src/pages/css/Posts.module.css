@@ -1,0 +1,14 @@
+.container {
+  margin: 30px;
+  height: 100vh;
+}
+
+.refresh {
+  margin-top: 30px;
+  margin-left: 80%;
+}
+
+.action_button {
+  background: #243466;
+  color: white;
+}
