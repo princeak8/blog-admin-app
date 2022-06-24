@@ -1,6 +1,6 @@
 import client from "./client";
 
-const endpoint = "/auth/admin/login";
+const endpoint = "/login";
 
 const loginUser = (email, password) =>
   client.post(

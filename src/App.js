@@ -14,10 +14,6 @@ const Users = React.lazy(() => import("./pages/ViewUsers"));
 
 function App() {
   const authCtx = useContext(AuthContext);
-  console.log(
-    "🚀 ~ file: App.js ~ line 17 ~ App ~ authCtx",
-    authCtx.isLoggedIn
-  );
 
   return (
     <Suspense

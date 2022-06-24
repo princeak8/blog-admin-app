@@ -50,13 +50,13 @@ const LoginForm = () => {
         result.data.error ? result.data.error : "Login Failed"
       );
 
-    console.log(result);
-    const name = result.data.user.name;
-    const accessToken = result.data.access_token;
+    const user_email = result.data.data.user.email;
+    const token = result.data.data.token;
+    const domain = result.data.data.user.domain;
     const expirationTime = new Date(
-      new Date().getTime() + result.data.expires_in * 1000
+      new Date().getTime() + result.data.data.token_expires_in * 1000
     );
-    authCtx.login(name, accessToken, expirationTime);
+    authCtx.login(user_email, domain, token, expirationTime.toISOString());
 
     navigate("/admin/");
 

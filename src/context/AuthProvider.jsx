@@ -4,7 +4,8 @@ let logoutTimer;
 
 const AuthContext = createContext({
   token: "",
-  name: "",
+  domain: "",
+  email: "",
   isLoggedIn: false,
   login: () => {},
   logout: () => {},
@@ -20,39 +21,51 @@ const calculateRemainingTime = (expirationTime) => {
 };
 
 const reteriveStoredToken = () => {
-  const storedName = localStorage.getItem("name");
+  const storedEmail = localStorage.getItem("email");
+  const storedDomain = localStorage.getItem("domain");
   const storedToken = localStorage.getItem("token");
   const storedExpirationDate = localStorage.getItem("expirationTime");
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
   if (remainingTime <= 60000) {
-    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("domain");
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
     return null;
   }
 
-  return { name: storedName, token: storedToken, duration: remainingTime };
+  return {
+    email: storedEmail,
+    domain: storedDomain,
+    token: storedToken,
+    duration: remainingTime,
+  };
 };
 
 export const AuthProvider = (props) => {
   const tokenData = reteriveStoredToken();
   let initialToken;
-  let initialName;
+  let initialEmail;
+  let initialDomain;
   if (tokenData) {
     initialToken = tokenData.token;
-    initialName = tokenData.name;
+    initialEmail = tokenData.email;
+    initialDomain = tokenData.domain;
   }
   const [token, setToken] = useState(initialToken);
-  const [name, setName] = useState(initialName);
+  const [email, setEmail] = useState(initialEmail);
+  const [domain, setDomain] = useState(initialDomain);
 
   const userIsLoggedIn = !!token;
 
   const handleLogout = useCallback(() => {
     setToken(null);
-    setName("");
-    localStorage.removeItem("name");
+    setEmail("");
+    setDomain("");
+    localStorage.removeItem("email");
+    localStorage.removeItem("domain");
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
 
@@ -61,10 +74,12 @@ export const AuthProvider = (props) => {
     }
   }, []);
 
-  const handleLogin = (name, token, expirationTime) => {
+  const handleLogin = (email, domain, token, expirationTime) => {
     setToken(token);
-    setName(name);
-    localStorage.setItem("name", name);
+    setEmail(email);
+    setDomain(domain);
+    localStorage.setItem("email", email);
+    localStorage.setItem("domain", domain);
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
 
@@ -81,7 +96,8 @@ export const AuthProvider = (props) => {
 
   const contextValue = {
     token: token,
-    name: name,
+    email: email,
+    domain: domain,
     isLoggedIn: userIsLoggedIn,
     login: handleLogin,
     logout: handleLogout,
