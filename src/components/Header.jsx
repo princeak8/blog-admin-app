@@ -51,7 +51,7 @@ const Header = () => {
             <div className={styles.notifyIcon}>
               <FaIcon.FaUser />
             </div>
-            <span className={styles.welcome}>{"authCtx.name"}</span>
+            <span className={styles.welcome}>{authCtx.email}</span>
             <BiIcon.BiChevronDown
               onClick={handleDrop}
               className={styles.dropicon}

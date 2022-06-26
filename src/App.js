@@ -4,6 +4,7 @@ import AuthContext from "./context/AuthProvider";
 import Login from "./pages/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
 import "./App.css";
+import Add_posts from "./pages/Add_posts";
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Posts = React.lazy(() => import("./pages/Posts"));
@@ -46,7 +47,7 @@ function App() {
           element={<UserProfile />}
         /> */}
               <Route path="/admin/posts" element={<Posts />} />
-              {/* <Route path="/admin/posts/:report_id" element={<PostDetail />} /> */}
+              <Route path="/admin/posts/add" element={<Add_posts />} />
 
               <Route path="/admin/settings" element={<Settings />} />
             </Route>

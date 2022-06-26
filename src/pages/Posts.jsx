@@ -13,11 +13,15 @@ const Posts = () => {
   const dispatch = useDispatch();
   const authCtx = useContext(AuthContext);
   const accessToken = authCtx.token;
+  const navigate = useNavigate();
 
   return (
     <>
       <div className={styles.container}>
-        <h1>Posts</h1>
+        <h1>Posts</h1>{" "}
+        <button type="button" onClick={() => navigate("/admin/posts/add")}>
+          Create new Post
+        </button>
       </div>
     </>
   );
