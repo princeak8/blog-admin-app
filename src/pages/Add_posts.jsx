@@ -1,25 +1,57 @@
 import React, { useContext, useEffect, useState } from "react";
-import ImageUploading from "react-images-uploading";
 import { useSelector } from "react-redux";
+
+import { ToastContainer } from "react-toastify";
 import styles from "./css/Add_post.module.css";
 import AuthContext from "../context/AuthProvider";
-import client from "../api/client";
 import postApi from "../api/post";
 import Add_tag from "../components/Add_tag";
+import { toast } from "react-toastify";
 
-const limit = 3;
+const limit = 25;
 
 function Add_posts(props) {
   const [post_title, setPost_title] = useState("");
-  const [coverImage, setCoverImage] = useState();
+  const [isUploading, setIsUploading] = useState(false);
+  const [savedImage, setSavedImage] = useState();
+  const [isCreatingTag, setIsCreatingTag] = useState(false);
+
   const [tags, setTags] = useState();
   const [preview, setPreview] = useState("");
+  const [post_body, setPost_body] = useState("");
 
   const [modalIsShown, setModalIsShown] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const authCtx = useContext(AuthContext);
   const accessToken = authCtx.token;
   const domain = authCtx.domain;
+  const [selected_tag, setSelected_tag] = useState([]);
+  const [InputKey, setInputKey] = useState();
+
+  const resetFields = () => {
+    setPost_title("");
+    setSavedImage("");
+    setPreview("");
+    setPost_body("");
+    setSelected_tag([]);
+    resetsFileInput();
+  };
+
+  const resetsFileInput = () => {
+    let randomString = Math.random().toString(36);
+    setInputKey(randomString);
+  };
+
+  const handleCheck = (e) => {
+    const isChecked = selected_tag.find((tag) => tag === e.target.value);
+
+    if (!isChecked) {
+      setSelected_tag([...selected_tag, e.target.value]);
+    } else {
+      const update = selected_tag.filter((tag) => tag !== e.target.value);
+      setSelected_tag(update);
+    }
+  };
 
   const show_add_tag = () => {
     setModalIsShown(true);
@@ -47,24 +79,66 @@ function Add_posts(props) {
     }
   };
 
+  const handlePost = (text) => {
+    setPost_body(text.target.value);
+  };
+
   const handleCreateTag = async (tag) => {
+    setIsCreatingTag(true);
     const response = await postApi.saveTag(domain, accessToken, tag);
     if (!response.ok) return setErrorMsg(response.data.error);
 
-    getTags();
+    setTags([...tags, response.data.data]);
+    setIsCreatingTag(false);
+  };
+
+  const handleUpload = async (image) => {
+    setIsUploading(true);
+    let image_to_upload = new FormData();
+
+    image_to_upload.append("image", image);
+
+    // console.log("image to upload", image_to_upload);
+
+    // return;
+
+    const response = await postApi.uploadImage(
+      domain,
+      accessToken,
+      image_to_upload
+    );
+    if (!response.ok) return setErrorMsg(response.data.error);
+    setIsUploading(false);
+
+    setSavedImage(response.data.data);
   };
 
   useEffect(() => {
     getTags();
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(post_title, coverImage);
+    const post = {
+      title: post_title,
+      cover_photo_id: savedImage?.id,
+      tags_id: selected_tag,
+      preview,
+      content: post_body,
+    };
+    const response = await postApi.savePost(domain, accessToken, post);
+
+    if (!response.ok) return toast.error(response.data.errors.title[0]);
+
+    resetFields();
+
+    toast.success("Posted");
   };
 
   return (
-    <div>
+    <div className={styles.container}>
+      <ToastContainer />
+
       <h1>Add Posts</h1>
       <form className={styles.form_container} onSubmit={handleSubmit}>
         <label htmlFor="title">TITLE: </label>
@@ -75,12 +149,16 @@ function Add_posts(props) {
           onChange={(text) => setPost_title(text.target.value)}
         />
 
-        <label htmlFor="cover">COVER IMAGE: </label>
-        <input
-          type="file"
-          id="cover"
-          onChange={(e) => setCoverImage(e.target.files[0])}
-        />
+        <div>
+          <label htmlFor="cover">COVER IMAGE: </label>
+          <input
+            key={InputKey}
+            type="file"
+            id="cover"
+            onChange={(e) => handleUpload(e.target.files[0])}
+          />
+          {isUploading && <h5>Uploading</h5>}
+        </div>
 
         <div className={styles.tags_container}>
           <label htmlFor="tags">TAGS: </label>
@@ -90,7 +168,12 @@ function Add_posts(props) {
               tags.map((tag) => (
                 <div key={tag.id}>
                   <label htmlFor={tag.id}>{tag.name}</label>
-                  <input type="checkbox" id={tag.id} value={tag} />
+                  <input
+                    type="checkbox"
+                    id={tag.id}
+                    value={tag.id}
+                    onChange={handleCheck}
+                  />
                 </div>
               ))}
           </div>
@@ -98,6 +181,7 @@ function Add_posts(props) {
             <Add_tag
               onCloseModal={hide_add_tag}
               onTagCreate={handleCreateTag}
+              isCreatingTag={isCreatingTag}
             />
           )}
         </div>
@@ -116,7 +200,19 @@ function Add_posts(props) {
           }`}
         </div>
 
-        <button>Submit</button>
+        <div className={styles.editor}>
+          <label htmlFor="body">Post: </label>
+          <textarea
+            value={post_body}
+            className={styles.body}
+            // placeholder="Post Preview"
+            id="body"
+            onChange={handlePost}
+          />
+        </div>
+        <div className={styles.submit_button}>
+          <button>Submit</button>
+        </div>
       </form>
     </div>
   );

@@ -5,7 +5,6 @@ import Login from "./pages/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
 import "./App.css";
 import Add_posts from "./pages/Add_posts";
-
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Posts = React.lazy(() => import("./pages/Posts"));
 const Settings = React.lazy(() => import("./components/Settings"));

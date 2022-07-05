@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
 
-function Add_tag({ onTagCreate, onCloseModal }) {
+const Add_tag = ({ onTagCreate, onCloseModal, isCreatingTag }) => {
   const [tag, setTag] = useState("");
 
   const handleCreateTag = () => {
     onTagCreate(tag);
+    setTag("");
   };
 
   return (
     <Modal onCloseModal={onCloseModal}>
       Create Tag{" "}
-      <input type="text" onChange={(text) => setTag(text.target.value)} />
-      <button type="submit" onClick={handleCreateTag}>
+      <input
+        value={tag}
+        type="text"
+        onChange={(text) => setTag(text.target.value)}
+      />
+      <button disabled={isCreatingTag} type="submit" onClick={handleCreateTag}>
         Create
       </button>
     </Modal>
   );
-}
+};
 
 export default Add_tag;
