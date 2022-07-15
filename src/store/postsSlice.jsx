@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = { allPosts: [], allTags: [] };
 
 const postSlice = createSlice({
-  name: "posts",
+  name: "postsDisplay",
 
   initialState,
 
   reducers: {
-    // getTags(state) {
-    //   state.allTags = action.payload;
-    // },
+    initializePosts(state, action) {
+      state.allPosts = action.payload;
+    },
   },
 });
 

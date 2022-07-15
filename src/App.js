@@ -5,6 +5,10 @@ import Login from "./pages/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
 import "./App.css";
 import Add_posts from "./pages/Add_posts";
+import { useDispatch } from "react-redux";
+import { postActions } from "./store/postsSlice";
+import postApi from "./api/post";
+
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Posts = React.lazy(() => import("./pages/Posts"));
 const Settings = React.lazy(() => import("./components/Settings"));
@@ -14,6 +18,25 @@ const Users = React.lazy(() => import("./pages/ViewUsers"));
 
 function App() {
   const authCtx = useContext(AuthContext);
+  const accessToken = authCtx.token;
+  const domain = authCtx.domain;
+  const dispatch = useDispatch();
+
+  const getAllPosts = async () => {
+    const response = await postApi.getAllPosts(domain, accessToken);
+    if (!response.ok) return console.log(response.data.error);
+
+    dispatch(postActions.initializePosts(response.data.data));
+    // setPosts(response.data.data);
+  };
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+
+  console.log("Domain", authCtx.domain);
+
+  console.log("Token", authCtx.token);
 
   return (
     <Suspense

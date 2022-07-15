@@ -4,10 +4,20 @@ const GET_TAG = "/admin/tag/all";
 const SAVE_TAG = "/admin/tag/save";
 const IMAGE_UPLOAD_URL = "/admin/file/save";
 const SAVE_POST_URL = "/admin/post/save";
+const ALL_POST = "/admin/post/all";
 
 const getTags = (domain, accessToken) =>
   client.apiPostClient.get(
     domain + GET_TAG,
+    {},
+    {
+      headers: { Authorization: `bearer ${accessToken}` },
+    }
+  );
+
+const getAllPosts = (domain, accessToken) =>
+  client.apiPostClient.get(
+    domain + ALL_POST,
     {},
     {
       headers: { Authorization: `bearer ${accessToken}` },
@@ -33,4 +43,4 @@ const savePost = (domain, accessToken, post) =>
     headers: { Authorization: `bearer ${accessToken}` },
   });
 
-export default { getTags, saveTag, uploadImage, savePost };
+export default { getTags, getAllPosts, saveTag, uploadImage, savePost };

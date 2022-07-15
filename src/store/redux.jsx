@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     modal: modalReducer,
     userDisplay: userDisplayReducer,
-    post: postReducer,
+    postsDisplay: postReducer,
   },
 });
 
