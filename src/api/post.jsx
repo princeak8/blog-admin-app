@@ -6,6 +6,7 @@ const IMAGE_UPLOAD_URL = "/admin/file/save";
 const SAVE_POST_URL = "/admin/post/save";
 const ALL_POST = "/admin/post/all";
 const PUBLISH = "/admin/post/toggle_publish/";
+const DELETE_URL = "/admin/post/delete/";
 
 const getTags = (domain, accessToken) =>
   client.apiPostClient.get(
@@ -53,6 +54,15 @@ const savePost = (domain, accessToken, post) =>
     headers: { Authorization: `bearer ${accessToken}` },
   });
 
+const deletePost = (id, domain, accessToken) =>
+  client.apiPostClient.delete(
+    domain + DELETE_URL + id,
+    {},
+    {
+      headers: { Authorization: `bearer ${accessToken}` },
+    }
+  );
+
 export default {
   getTags,
   getAllPosts,
@@ -60,4 +70,5 @@ export default {
   saveTag,
   uploadImage,
   savePost,
+  deletePost,
 };

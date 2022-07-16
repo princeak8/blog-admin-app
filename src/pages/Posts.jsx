@@ -28,6 +28,16 @@ const Posts = () => {
     });
   };
 
+  const delete_post = async (id) => {
+    setIsLoading(true);
+    const response = await post.deletePost(id, domain, accessToken);
+    if (!response.ok) return console.log("delete failed");
+
+    dispatch(postActions.deletePost(id));
+
+    setIsLoading(false);
+  };
+
   const publish_post = async (id) => {
     setIsLoading(true);
     const response = await post.togglePublish(id, domain, accessToken);
@@ -89,6 +99,14 @@ const Posts = () => {
               onClick={() => publish_post(row.original.id)}
             >
               {row.original.published ? "Take Down" : "Publish"}
+            </button>
+
+            <button
+              type="button"
+              className={`btn ${styles.action_button}`}
+              onClick={() => delete_post(row.original.id)}
+            >
+              Delete
             </button>
           </>
         ),
