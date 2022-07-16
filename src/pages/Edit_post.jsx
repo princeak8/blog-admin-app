@@ -8,27 +8,32 @@ import postApi from "../api/post";
 import Add_tag from "../components/Add_tag";
 import { toast } from "react-toastify";
 import { postActions } from "../store/postsSlice";
+import { useLocation } from "react-router-dom";
 
 const limit = 25;
 
 function Add_posts(props) {
+  const location = useLocation();
   const dispatch = useDispatch();
-  const [post_title, setPost_title] = useState("");
+  const [post_title, setPost_title] = useState(location.state.title);
   const [isUploading, setIsUploading] = useState(false);
   const [savedImage, setSavedImage] = useState();
   const [isCreatingTag, setIsCreatingTag] = useState(false);
 
   const [tags, setTags] = useState();
-  const [preview, setPreview] = useState("");
-  const [post_body, setPost_body] = useState("");
+  const [preview, setPreview] = useState(location.state.preview);
+  const [post_body, setPost_body] = useState(location.state.content);
 
   const [modalIsShown, setModalIsShown] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
   const authCtx = useContext(AuthContext);
   const accessToken = authCtx.token;
   const domain = authCtx.domain;
-  const [selected_tag, setSelected_tag] = useState([]);
+  const [selected_tag, setSelected_tag] = useState(location.state.tags);
   const [InputKey, setInputKey] = useState();
+
+  //   console.log("location", location);
+  console.log(selected_tag);
 
   const resetFields = () => {
     setPost_title("");
@@ -44,13 +49,17 @@ function Add_posts(props) {
     setInputKey(randomString);
   };
 
-  const handleCheck = (e) => {
-    const isChecked = selected_tag.find((tag) => tag === e.target.value);
+  const handleCheck = (tag) => {
+    const isChecked = selected_tag.find((tag) => tag.tag_id === tag.id);
+    console.log(
+      "🚀 ~ file: Edit_post.jsx ~ line 53 ~ handleCheck ~ isChecked",
+      isChecked
+    );
 
     if (!isChecked) {
-      setSelected_tag([...selected_tag, e.target.value]);
+      setSelected_tag([...selected_tag, tag]);
     } else {
-      const update = selected_tag.filter((tag) => tag !== e.target.value);
+      const update = selected_tag.filter((tag) => tag.tag_id !== tag.id);
       setSelected_tag(update);
     }
   };
@@ -143,10 +152,11 @@ function Add_posts(props) {
     <div className={styles.container}>
       <ToastContainer />
 
-      <h1>Add Posts</h1>
+      <h1>Edit Post</h1>
       <form className={styles.form_container} onSubmit={handleSubmit}>
         <label htmlFor="title">TITLE: </label>
         <input
+          value={post_title}
           type="text"
           id="title"
           placeholder="POST TITLE"
@@ -173,10 +183,15 @@ function Add_posts(props) {
                 <div key={tag.id}>
                   <label htmlFor={tag.id}>{tag.name}</label>
                   <input
+                    checked={
+                      selected_tag.find((item) => item.tag_id === tag.id)
+                        ? true
+                        : false
+                    }
                     type="checkbox"
                     id={tag.id}
                     value={tag.id}
-                    onChange={handleCheck}
+                    onChange={() => handleCheck(tag)}
                   />
                 </div>
               ))}

@@ -5,6 +5,7 @@ const SAVE_TAG = "/admin/tag/save";
 const IMAGE_UPLOAD_URL = "/admin/file/save";
 const SAVE_POST_URL = "/admin/post/save";
 const ALL_POST = "/admin/post/all";
+const PUBLISH = "/admin/post/toggle_publish/";
 
 const getTags = (domain, accessToken) =>
   client.apiPostClient.get(
@@ -18,6 +19,15 @@ const getTags = (domain, accessToken) =>
 const getAllPosts = (domain, accessToken) =>
   client.apiPostClient.get(
     domain + ALL_POST,
+    {},
+    {
+      headers: { Authorization: `bearer ${accessToken}` },
+    }
+  );
+
+const togglePublish = (id, domain, accessToken) =>
+  client.apiPostClient.get(
+    domain + PUBLISH + id,
     {},
     {
       headers: { Authorization: `bearer ${accessToken}` },
@@ -43,4 +53,11 @@ const savePost = (domain, accessToken, post) =>
     headers: { Authorization: `bearer ${accessToken}` },
   });
 
-export default { getTags, getAllPosts, saveTag, uploadImage, savePost };
+export default {
+  getTags,
+  getAllPosts,
+  togglePublish,
+  saveTag,
+  uploadImage,
+  savePost,
+};

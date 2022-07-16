@@ -11,6 +11,20 @@ const postSlice = createSlice({
     initializePosts(state, action) {
       state.allPosts = action.payload;
     },
+
+    addPost(state, action) {
+      state.allPosts.push(action.payload);
+    },
+
+    updatePost(state, action) {
+      const update_state = [...state.allPosts];
+      const old_post_index = update_state.findIndex(
+        (post, index) => post.id === action.payload.id
+      );
+      update_state[old_post_index] = action.payload;
+
+      state.allPosts = update_state;
+    },
   },
 });
 

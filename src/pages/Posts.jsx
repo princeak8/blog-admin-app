@@ -9,12 +9,33 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import * as FiIcon from "react-icons/fi";
 import Table from "../components/Table";
+import post from "../api/post";
+import { postActions } from "../store/postsSlice";
 
 const Posts = () => {
+  const dispatch = useDispatch();
+  const authCtx = useContext(AuthContext);
+  const accessToken = authCtx.token;
+  const domain = authCtx.domain;
+  const [isLoading, setIsLoading] = useState(false);
   const posts = useSelector((state) => state.postsDisplay.allPosts);
-  // console.log("🚀 ~ file: Posts.jsx ~ line 15 ~ Posts ~ posts", posts);
 
   const navigate = useNavigate();
+
+  const edit_post = (post_item) => {
+    navigate(`/admin/posts/${post_item.id}`, {
+      state: { ...post_item },
+    });
+  };
+
+  const publish_post = async (id) => {
+    setIsLoading(true);
+    const response = await post.togglePublish(id, domain, accessToken);
+    if (!response.ok) return console.log("toggle publish error");
+
+    dispatch(postActions.updatePost(response.data.data));
+    setIsLoading(false);
+  };
 
   const columns = useMemo(
     () => [
@@ -54,13 +75,22 @@ const Posts = () => {
         id: "Publish",
         Header: "Call to Action",
         Cell: ({ row }) => (
-          <button
-            type="button"
-            className={`btn ${styles.action_button}`}
-            onClick={() => console.log("clicked", row.original)}
-          >
-            {row.original.published ? "Take Down" : "Publish"}
-          </button>
+          <>
+            <button
+              type="button"
+              className={`btn ${styles.action_button}`}
+              onClick={() => edit_post(row.original)}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className={`btn ${styles.action_button}`}
+              onClick={() => publish_post(row.original.id)}
+            >
+              {row.original.published ? "Take Down" : "Publish"}
+            </button>
+          </>
         ),
       },
     ]);
@@ -73,6 +103,7 @@ const Posts = () => {
 
   return (
     <>
+      {isLoading && <LoadingSpinner />}
       <div className={styles.container}>
         <h1>Posts</h1>{" "}
         <button type="button" onClick={() => navigate("/admin/posts/add")}>

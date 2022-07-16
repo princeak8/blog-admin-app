@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
 import "./App.css";
 import Add_posts from "./pages/Add_posts";
+import Edit_post from "./pages/Edit_post";
+
 import { useDispatch } from "react-redux";
 import { postActions } from "./store/postsSlice";
 import postApi from "./api/post";
@@ -34,9 +36,9 @@ function App() {
     getAllPosts();
   }, []);
 
-  console.log("Domain", authCtx.domain);
+  // console.log("Domain", authCtx.domain);
 
-  console.log("Token", authCtx.token);
+  // console.log("Token", authCtx.token);
 
   return (
     <Suspense
@@ -70,7 +72,7 @@ function App() {
         /> */}
               <Route path="/admin/posts" element={<Posts />} />
               <Route path="/admin/posts/add" element={<Add_posts />} />
-
+              <Route path="/admin/posts/:id" element={<Edit_post />} />
               <Route path="/admin/settings" element={<Settings />} />
             </Route>
             <Route
