@@ -21,6 +21,7 @@ const Users = React.lazy(() => import("./pages/ViewUsers"));
 
 function App() {
   const user = useSelector((state) => state.userDisplay.user);
+  const localUser = localStorage.getItem("user");
   const authCtx = useContext(AuthContext);
   const accessToken = authCtx.token;
   const domain = authCtx.domain;
@@ -38,7 +39,7 @@ function App() {
     getAllPosts();
   }, []);
 
-  // console.log("Token", authCtx.token);
+  console.log("localUser", authCtx.user);
 
   return (
     <Suspense
@@ -51,7 +52,7 @@ function App() {
       <Routes>
         <Route path="/admin/login" element={<Login />} />
 
-        {authCtx.isLoggedIn && user.name ? (
+        {authCtx.isLoggedIn && authCtx.user ? (
           <>
             <Route path="/admin/" element={<Index />}>
               <Route index element={<Dashboard />} />
@@ -73,7 +74,7 @@ function App() {
             />
             <Route path="*" element={<Index />} />
           </>
-        ) : authCtx.isLoggedIn && !user.name ? (
+        ) : authCtx.isLoggedIn && !authCtx.user ? (
           <Route path="/admin/" element={<Index />}>
             <Route path="/admin/profile" element={<Profile />} />
             <Route path="/admin/*" element={<Profile />} />

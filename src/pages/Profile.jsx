@@ -48,7 +48,8 @@ function Profile(props) {
     const response = await userApi.updateUserInfo(user, domain, token);
     if (!response.ok) return setErrorMsg(response.problem);
 
-    dispatch(userActions.setUser(user));
+    dispatch(userActions.setUser(response.data.data));
+    authCtx.addUser(response.data.data.name);
     navigate("/admin/dashboard");
   };
 
