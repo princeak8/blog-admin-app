@@ -11,7 +11,8 @@ header {
   background: white;
 }
 
-.collapse {
+.collapse,
+.welcome {
   cursor: pointer;
 }
 
@@ -61,7 +62,7 @@ header {
 }
 
 @media only screen and (max-width: 720px) {
-/* header{
+  /* header{
   display: none;
 } */
 }

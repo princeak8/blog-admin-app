@@ -44,13 +44,13 @@ function Add_posts(props) {
     setInputKey(randomString);
   };
 
-  const handleCheck = (e) => {
-    const isChecked = selected_tag.find((tag) => tag === e.target.value);
+  const handleCheck = (tag) => {
+    const isChecked = selected_tag.find((item) => item.id === tag.id);
 
     if (!isChecked) {
-      setSelected_tag([...selected_tag, e.target.value]);
+      setSelected_tag([...selected_tag, tag]);
     } else {
-      const update = selected_tag.filter((tag) => tag !== e.target.value);
+      const update = selected_tag.filter((item) => item.id !== tag.id);
       setSelected_tag(update);
     }
   };
@@ -120,14 +120,18 @@ function Add_posts(props) {
   }, []);
 
   const handleSubmit = async (event) => {
+    console.log("here");
     event.preventDefault();
+    const tags = [];
+    selected_tag.map((tag) => tags.push(tag.id));
     const post = {
       title: post_title,
-      cover_photo_id: savedImage?.id,
-      tags_id: selected_tag,
+      cover_photo: savedImage?.id,
+      tags_id: tags,
       preview,
       content: post_body,
     };
+
     const response = await postApi.savePost(domain, accessToken, post);
 
     if (!response.ok) return toast.error(response.data.errors.title[0]);
@@ -144,9 +148,10 @@ function Add_posts(props) {
       <ToastContainer />
 
       <h1>Add Posts</h1>
-      <form className={styles.form_container} onSubmit={handleSubmit}>
+      <form className={styles.form_container}>
         <label htmlFor="title">TITLE: </label>
         <input
+          value={post_title}
           type="text"
           id="title"
           placeholder="POST TITLE"
@@ -173,10 +178,15 @@ function Add_posts(props) {
                 <div key={tag.id}>
                   <label htmlFor={tag.id}>{tag.name}</label>
                   <input
+                    checked={
+                      selected_tag.find((item) => item.id === tag.id)
+                        ? true
+                        : false
+                    }
                     type="checkbox"
                     id={tag.id}
                     value={tag.id}
-                    onChange={handleCheck}
+                    onChange={() => handleCheck(tag)}
                   />
                 </div>
               ))}
@@ -215,7 +225,7 @@ function Add_posts(props) {
           />
         </div>
         <div className={styles.submit_button}>
-          <button>Submit</button>
+          <button onClick={handleSubmit}>Submit</button>
         </div>
       </form>
     </div>

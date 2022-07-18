@@ -8,7 +8,7 @@ import postApi from "../api/post";
 import Add_tag from "../components/Add_tag";
 import { toast } from "react-toastify";
 import { postActions } from "../store/postsSlice";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const limit = 25;
 
@@ -17,7 +17,9 @@ function Add_posts(props) {
   const dispatch = useDispatch();
   const [post_title, setPost_title] = useState(location.state.title);
   const [isUploading, setIsUploading] = useState(false);
-  const [savedImage, setSavedImage] = useState();
+  const [savedImage, setSavedImage] = useState(
+    location.state.coverImage ? location.state.coverImage : {}
+  );
   const [isCreatingTag, setIsCreatingTag] = useState(false);
 
   const [tags, setTags] = useState();
@@ -32,8 +34,8 @@ function Add_posts(props) {
   const [selected_tag, setSelected_tag] = useState(location.state.tags);
   const [InputKey, setInputKey] = useState();
 
-  //   console.log("location", location);
-  console.log(selected_tag);
+  console.log("location", location);
+  //   console.log(location);
 
   const resetFields = () => {
     setPost_title("");
@@ -50,16 +52,12 @@ function Add_posts(props) {
   };
 
   const handleCheck = (tag) => {
-    const isChecked = selected_tag.find((tag) => tag.tag_id === tag.id);
-    console.log(
-      "🚀 ~ file: Edit_post.jsx ~ line 53 ~ handleCheck ~ isChecked",
-      isChecked
-    );
+    const isChecked = selected_tag.find((item) => item.id === tag.id);
 
     if (!isChecked) {
       setSelected_tag([...selected_tag, tag]);
     } else {
-      const update = selected_tag.filter((tag) => tag.tag_id !== tag.id);
+      const update = selected_tag.filter((item) => item.id !== tag.id);
       setSelected_tag(update);
     }
   };
@@ -130,18 +128,22 @@ function Add_posts(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const tags = [];
+    selected_tag.map((tag) => tags.push(tag.id));
     const post = {
+      post_id: location.state.id,
       title: post_title,
       cover_photo_id: savedImage?.id,
-      tags_id: selected_tag,
+      tags_id: tags,
       preview,
       content: post_body,
     };
-    const response = await postApi.savePost(domain, accessToken, post);
 
+    // return console.log(post);
+    const response = await postApi.updatePost(domain, accessToken, post);
     if (!response.ok) return toast.error(response.data.errors.title[0]);
 
-    dispatch(postActions.addPost(response.data.data));
+    dispatch(postActions.updatePost(response.data.data));
 
     resetFields();
 
@@ -162,15 +164,27 @@ function Add_posts(props) {
           placeholder="POST TITLE"
           onChange={(text) => setPost_title(text.target.value)}
         />
-
+        {/* <Link to={{ pathname: savedImage.url }} target="_blank">
+            {savedImage.original_filename}
+          </Link> */}
         <div>
           <label htmlFor="cover">COVER IMAGE: </label>
-          <input
-            key={InputKey}
-            type="file"
-            id="cover"
-            onChange={(e) => handleUpload(e.target.files[0])}
-          />
+          {Object.values(savedImage).length === 0 ? (
+            <input
+              value={savedImage.url}
+              key={InputKey}
+              type="file"
+              id="cover"
+              onChange={(e) => handleUpload(e.target.files[0])}
+            />
+          ) : (
+            <>
+              <a href={savedImage.url} target="_blank">
+                {savedImage.original_filename}
+              </a>
+              <button onClick={() => setSavedImage({})}>Remove</button>
+            </>
+          )}
           {isUploading && <h5>Uploading</h5>}
         </div>
 
@@ -184,7 +198,7 @@ function Add_posts(props) {
                   <label htmlFor={tag.id}>{tag.name}</label>
                   <input
                     checked={
-                      selected_tag.find((item) => item.tag_id === tag.id)
+                      selected_tag.find((item) => item.id === tag.id)
                         ? true
                         : false
                     }

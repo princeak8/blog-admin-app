@@ -2,7 +2,7 @@ import * as FiIcon from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import filter from "./asset/filter.png";
 import exportIcon from "./asset/export.png";
-import { userDisplayActions } from "../store/userDisplaySlice";
+import { userActions } from "../store/userSlice";
 import "./css/Search.css";
 import { Capitalize } from "../utils/helpers";
 
@@ -19,7 +19,7 @@ const Search = (props) => {
   const handleSearch = (event) => {
     const inputData = event.target.value.toLowerCase();
     onhandleIndexChange();
-    dispatch(userDisplayActions.searchItem(inputData));
+    // dispatch(userDisplayActions.searchItem(inputData));
   };
 
   return (

@@ -9,13 +9,14 @@ import HeaderDropDown from "./HeaderDropDown";
 import * as BiIcon from "react-icons/bi";
 import * as RiIcon from "react-icons/ri";
 import * as VscIcon from "react-icons/vsc";
-import { userDisplayActions } from "../store/userDisplaySlice";
-import { useDispatch } from "react-redux";
+import { userActions } from "../store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
   const authCtx = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const user = useSelector((state) => state.userDisplay.user);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -28,7 +29,7 @@ const Header = () => {
   };
 
   const handleToggleSidebar = () => {
-    dispatch(userDisplayActions.toggleSideBar());
+    dispatch(userActions.toggleSideBar());
   };
 
   return (
@@ -51,7 +52,12 @@ const Header = () => {
             <div className={styles.notifyIcon}>
               <FaIcon.FaUser />
             </div>
-            <span className={styles.welcome}>{authCtx.email}</span>
+            <span
+              onClick={() => navigate("/profile")}
+              className={styles.welcome}
+            >
+              {user.name ? user.name : authCtx.email}
+            </span>
             <BiIcon.BiChevronDown
               onClick={handleDrop}
               className={styles.dropicon}

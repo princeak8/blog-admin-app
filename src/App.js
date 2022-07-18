@@ -7,9 +7,10 @@ import "./App.css";
 import Add_posts from "./pages/Add_posts";
 import Edit_post from "./pages/Edit_post";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "./store/postsSlice";
 import postApi from "./api/post";
+import Profile from "./pages/Profile";
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Posts = React.lazy(() => import("./pages/Posts"));
@@ -19,6 +20,7 @@ const Verfication = React.lazy(() => import("./pages/Verfication"));
 const Users = React.lazy(() => import("./pages/ViewUsers"));
 
 function App() {
+  const user = useSelector((state) => state.userDisplay.user);
   const authCtx = useContext(AuthContext);
   const accessToken = authCtx.token;
   const domain = authCtx.domain;
@@ -36,7 +38,7 @@ function App() {
     getAllPosts();
   }, []);
 
-  // console.log("Domain", authCtx.domain);
+  console.log("User", user);
 
   // console.log("Token", authCtx.token);
 
@@ -51,25 +53,17 @@ function App() {
       <Routes>
         <Route path="/admin/login" element={<Login />} />
 
-        {authCtx.isLoggedIn ? (
+        {authCtx.isLoggedIn && user.name ? (
           <>
             <Route path="/admin/" element={<Index />}>
               <Route index element={<Dashboard />} />
               <Route path="/admin/dashboard" element={<Dashboard />} />
               <Route path="/admin/users/" element={<Users />} />
               <Route path="/admin/users/view_users" element={<Users />} />
-              {/* <Route
-          path="/admin/users/view_users/:user_id"
-          element={<UserDetail />}
-        /> */}
               <Route
                 path="/admin/users/verify_users"
                 element={<Verfication />}
               />
-              {/* <Route
-          path="/admin/users/verify_users/:user_id"
-          element={<UserProfile />}
-        /> */}
               <Route path="/admin/posts" element={<Posts />} />
               <Route path="/admin/posts/add" element={<Add_posts />} />
               <Route path="/admin/posts/:id" element={<Edit_post />} />
@@ -81,6 +75,11 @@ function App() {
             />
             <Route path="*" element={<Index />} />
           </>
+        ) : authCtx.isLoggedIn && !user.name ? (
+          <Route path="/admin/" element={<Index />}>
+            <Route path="/admin/profile" element={<Profile />} />
+            <Route path="/admin/*" element={<Profile />} />
+          </Route>
         ) : (
           <>
             <Route path="/" element={<Login />} />
