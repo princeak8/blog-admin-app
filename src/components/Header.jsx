@@ -10,13 +10,12 @@ import * as BiIcon from "react-icons/bi";
 import * as RiIcon from "react-icons/ri";
 import * as VscIcon from "react-icons/vsc";
 import { userActions } from "../store/userSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
   const authCtx = useContext(AuthContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
-  const user = useSelector((state) => state.userDisplay.user);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -53,10 +52,10 @@ const Header = () => {
               <FaIcon.FaUser />
             </div>
             <span
-              onClick={() => navigate("/profile")}
+              onClick={() => navigate("/admin/profile")}
               className={styles.welcome}
             >
-              {user.name ? user.name : authCtx.email}
+              {authCtx.user ? authCtx.user : authCtx.email}
             </span>
             <BiIcon.BiChevronDown
               onClick={handleDrop}

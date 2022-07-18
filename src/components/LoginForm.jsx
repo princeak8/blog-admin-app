@@ -65,11 +65,11 @@ const LoginForm = () => {
     const user = await userApi.getUser(result.data.data.user.id, domain, token);
     if (!user.ok) console.log(user);
 
-    console.log(user);
+    console.log("user", user);
     if (!user.data.data) {
       navigate("/admin/profile/");
     } else {
-      dispatch(userActions.setUser(user.data.data));
+      authCtx.addUser(user.data.data.name);
       navigate("/admin/");
     }
     setEmail("");
