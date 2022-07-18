@@ -38,8 +38,6 @@ function App() {
     getAllPosts();
   }, []);
 
-  console.log("User", user);
-
   // console.log("Token", authCtx.token);
 
   return (

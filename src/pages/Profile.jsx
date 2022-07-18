@@ -7,6 +7,7 @@ import AuthContext from "../context/AuthProvider";
 import userApi from "../api/user";
 import styles from "./css/Profile.module.css";
 import { userActions } from "../store/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Profile(props) {
   const authCtx = useContext(AuthContext);
@@ -19,6 +20,7 @@ function Profile(props) {
   const [about, setAbout] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     nameRef.current.focus();
@@ -47,6 +49,7 @@ function Profile(props) {
     if (!response.ok) return setErrorMsg(response.problem);
 
     dispatch(userActions.setUser(user));
+    navigate("/admin/dashboard");
   };
 
   let errStyle = null;

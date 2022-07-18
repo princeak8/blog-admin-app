@@ -65,10 +65,11 @@ const LoginForm = () => {
     const user = await userApi.getUser(result.data.data.user.id, domain, token);
     if (!user.ok) console.log(user);
 
+    console.log(user);
     if (!user.data.data) {
       navigate("/admin/profile/");
     } else {
-      dispatch(userActions(user.data.data));
+      dispatch(userActions.setUser(user.data.data));
       navigate("/admin/");
     }
     setEmail("");
