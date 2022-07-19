@@ -26,6 +26,7 @@ function App() {
 
   const getAllPosts = async () => {
     const response = await postApi.getAllPosts(domain, accessToken);
+    
     if (!response.ok) return console.log(response.data.error);
 
     dispatch(postActions.initializePosts(response.data.data));

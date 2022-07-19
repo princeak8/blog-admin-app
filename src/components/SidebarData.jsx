@@ -10,25 +10,25 @@ export const SidebarData = [
     path: "/admin/dashboard",
     icon: <MdIcons.MdDashboard />,
   },
-  {
-    title: "Users",
-    path: "/admin/users",
-    icon: <ImIcons.ImUsers />,
-    iconClosed: <BsIcons.BsChevronUp />,
-    iconOpened: <IoIcons.IoIosArrowDown />,
-    subNav: [
-      {
-        title: "View Users",
-        path: "/admin/users/view_users",
-        icon: <FaIcons.FaUserClock />,
-      },
-      {
-        title: "Verify Users",
-        path: "/admin/users/verify_users",
-        icon: <FaIcons.FaUserCheck />,
-      },
-    ],
-  },
+  // {
+  //   title: "Users",
+  //   path: "/admin/users",
+  //   icon: <ImIcons.ImUsers />,
+  //   iconClosed: <BsIcons.BsChevronUp />,
+  //   iconOpened: <IoIcons.IoIosArrowDown />,
+  //   subNav: [
+  //     {
+  //       title: "View Users",
+  //       path: "/admin/users/view_users",
+  //       icon: <FaIcons.FaUserClock />,
+  //     },
+  //     {
+  //       title: "Verify Users",
+  //       path: "/admin/users/verify_users",
+  //       icon: <FaIcons.FaUserCheck />,
+  //     },
+  //   ],
+  // },
   {
     title: "Posts",
     path: "/admin/posts",
@@ -48,9 +48,9 @@ export const SidebarData = [
     //   },
     // ],
   },
-  {
-    title: "Settings",
-    path: "/admin/settings",
-    icon: <IoIcons.IoMdSettings />,
-  },
+  // {
+  //   title: "Settings",
+  //   path: "/admin/settings",
+  //   icon: <IoIcons.IoMdSettings />,
+  // },
 ];

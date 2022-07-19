@@ -123,7 +123,7 @@ function Add_posts(props) {
     event.preventDefault();
     const post = {
       title: post_title,
-      cover_photo_id: savedImage?.id,
+      cover_photo: savedImage?.id,
       tags_id: selected_tag,
       preview,
       content: post_body,
