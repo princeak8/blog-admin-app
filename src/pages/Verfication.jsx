@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import "./css/Verification.css";
 import { useDispatch, useSelector } from "react-redux";
-import { userDisplayActions } from "../store/userDisplaySlice";
+import { userActions } from "../store/userSlice";
 import * as FiIcon from "react-icons/fi";
 import AuthContext from "../context/AuthProvider";
-import { fetchDisplayData } from "../store/display-actions";
 
 import Search from "../components/Search";
 import { ToastContainer } from "react-toastify";
@@ -23,7 +22,7 @@ const Verfication = (props) => {
   const navigate = useNavigate();
 
   const handleRefresh = () => {
-    dispatch(fetchDisplayData(accessToken));
+    // dispatch(fetchDisplayData(accessToken));
   };
 
   //Get the active tab and filter its columns for search

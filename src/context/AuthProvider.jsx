@@ -7,6 +7,8 @@ const AuthContext = createContext({
   domain: "",
   email: "",
   isLoggedIn: false,
+  user: "",
+  addUser: () => {},
   login: () => {},
   logout: () => {},
 });
@@ -25,6 +27,7 @@ const reteriveStoredToken = () => {
   const storedDomain = localStorage.getItem("domain");
   const storedToken = localStorage.getItem("token");
   const storedExpirationDate = localStorage.getItem("expirationTime");
+  const storedUser = localStorage.getItem("user");
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
@@ -32,6 +35,7 @@ const reteriveStoredToken = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("domain");
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     localStorage.removeItem("expirationTime");
     return null;
   }
@@ -41,6 +45,7 @@ const reteriveStoredToken = () => {
     domain: storedDomain,
     token: storedToken,
     duration: remainingTime,
+    user: storedUser,
   };
 };
 
@@ -49,14 +54,17 @@ export const AuthProvider = (props) => {
   let initialToken;
   let initialEmail;
   let initialDomain;
+  let initialUser;
   if (tokenData) {
     initialToken = tokenData.token;
     initialEmail = tokenData.email;
     initialDomain = tokenData.domain;
+    initialUser = tokenData.user;
   }
   const [token, setToken] = useState(initialToken);
   const [email, setEmail] = useState(initialEmail);
   const [domain, setDomain] = useState(initialDomain);
+  const [user, setUser] = useState(initialUser);
 
   const userIsLoggedIn = !!token;
 
@@ -64,10 +72,12 @@ export const AuthProvider = (props) => {
     setToken(null);
     setEmail("");
     setDomain("");
+    setUser("");
     localStorage.removeItem("email");
     localStorage.removeItem("domain");
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
+    localStorage.removeItem("user");
 
     if (logoutTimer) {
       clearTimeout(logoutTimer);
@@ -88,6 +98,11 @@ export const AuthProvider = (props) => {
     logoutTimer = setTimeout(handleLogout, remainingTime);
   };
 
+  const handleAddUser = (user) => {
+    setUser(user);
+    localStorage.setItem("user", user);
+  };
+
   useEffect(() => {
     if (tokenData) {
       logoutTimer = setTimeout(handleLogout, tokenData.duration);
@@ -95,10 +110,12 @@ export const AuthProvider = (props) => {
   }, [tokenData, handleLogout]);
 
   const contextValue = {
-    token: token,
-    email: email,
-    domain: domain,
+    token,
+    email,
+    domain,
     isLoggedIn: userIsLoggedIn,
+    user,
+    addUser: handleAddUser,
     login: handleLogin,
     logout: handleLogout,
   };

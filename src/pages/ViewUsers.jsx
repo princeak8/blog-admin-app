@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "./css/Verification.css";
 
-import { userDisplayActions } from "../store/userDisplaySlice";
+import { userActions } from "../store/userSlice";
 import _ from "lodash";
 import Search from "../components/Search";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -16,7 +16,7 @@ const Users = () => {
 
   const handleFilterSelect = (item) => {
     setSelected_specialization(item.target.value);
-    dispatch(userDisplayActions.showfilter(false));
+    // dispatch(userDisplayActions.showfilter(false));
     // setCurrentPage(1);
   };
 

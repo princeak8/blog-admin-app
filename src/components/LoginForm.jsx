@@ -3,14 +3,17 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 import styles from "./css/LoginForm.module.css";
 import authApi from "../api/auth";
+import userApi from "../api/user";
 import logo from "./asset/medicsynclogo.png";
+import { useDispatch } from "react-redux";
+import { userActions } from "../store/userSlice";
 
 const LoginForm = () => {
   const authCtx = useContext(AuthContext);
   const emailRef = useRef();
   const errorRef = useRef();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -56,10 +59,19 @@ const LoginForm = () => {
     const expirationTime = new Date(
       new Date().getTime() + result.data.data.token_expires_in * 1000
     );
+
     authCtx.login(user_email, domain, token, expirationTime.toISOString());
 
-    navigate("/admin/");
+    const user = await userApi.getUser(result.data.data.user.id, domain, token);
+    if (!user.ok) console.log(user);
 
+    console.log("user", user);
+    if (!user.data.data) {
+      navigate("/admin/profile/");
+    } else {
+      authCtx.addUser(user.data.data.name);
+      navigate("/admin/");
+    }
     setEmail("");
     setPassword("");
 

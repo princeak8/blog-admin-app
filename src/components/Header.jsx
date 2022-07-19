@@ -9,7 +9,7 @@ import HeaderDropDown from "./HeaderDropDown";
 import * as BiIcon from "react-icons/bi";
 import * as RiIcon from "react-icons/ri";
 import * as VscIcon from "react-icons/vsc";
-import { userDisplayActions } from "../store/userDisplaySlice";
+import { userActions } from "../store/userSlice";
 import { useDispatch } from "react-redux";
 
 const Header = () => {
@@ -28,7 +28,7 @@ const Header = () => {
   };
 
   const handleToggleSidebar = () => {
-    dispatch(userDisplayActions.toggleSideBar());
+    dispatch(userActions.toggleSideBar());
   };
 
   return (
@@ -51,7 +51,12 @@ const Header = () => {
             <div className={styles.notifyIcon}>
               <FaIcon.FaUser />
             </div>
-            <span className={styles.welcome}>{authCtx.email}</span>
+            <span
+              onClick={() => navigate("/admin/profile")}
+              className={styles.welcome}
+            >
+              {authCtx.user ? authCtx.user : authCtx.email}
+            </span>
             <BiIcon.BiChevronDown
               onClick={handleDrop}
               className={styles.dropicon}
