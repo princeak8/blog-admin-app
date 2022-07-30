@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import "./css/Index.css";
 import postApi from "../api/post";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 // import { fetchDisplayData } from "../store/display-actions";
 // import { fetchReportData } from "../store/report-actions";
 
@@ -18,6 +19,7 @@ const Index = (props) => {
   return (
     <React.Fragment>
       <div className="container-fluid">
+        <ToastContainer />
         <Sidebar />
 
         <div className="itembody">
