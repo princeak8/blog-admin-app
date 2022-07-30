@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "./store/postsSlice";
 import postApi from "./api/post";
 import Profile from "./pages/Profile";
+import { toast } from "react-toastify";
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Posts = React.lazy(() => import("./pages/Posts"));
@@ -29,8 +30,8 @@ function App() {
 
   const getAllPosts = async () => {
     const response = await postApi.getAllPosts(domain, accessToken);
-    
-    if (!response.ok) return console.log(response.data.error);
+
+    if (!response.ok) return toast.error(response.originalError.message);
 
     dispatch(postActions.initializePosts(response.data.data));
     // setPosts(response.data.data);

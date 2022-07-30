@@ -15,8 +15,10 @@ function Profile(props) {
   const token = authCtx.token;
   const errorRef = useRef();
   const nameRef = useRef();
+  const blog_nameRef = useRef();
   const dispatch = useDispatch();
   const [name, setName] = useState("");
+  const [blog_name, setBlog_name] = useState("");
   const [about, setAbout] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,10 +33,14 @@ function Profile(props) {
     return () => {
       setErrorMsg("");
     };
-  }, [name, about]);
+  }, [name, blog_name, about]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
+  };
+
+  const handleBlogNameChange = (event) => {
+    setBlog_name(event.target.value);
   };
 
   const handleAboutChange = (event) => {
@@ -44,7 +50,7 @@ function Profile(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    const user = { name, about };
+    const user = { name, blog_name, about };
     const response = await userApi.updateUserInfo(user, domain, token);
     if (!response.ok) return setErrorMsg(response.problem);
 
@@ -81,6 +87,23 @@ function Profile(props) {
             onChange={handleNameChange}
             placeholder="Please enter your name"
             value={name}
+            required
+          />
+        </div>
+
+        <div className={styles["form-item"]}>
+          <label htmlFor="blog_name" className={styles.label}>
+            Blog Name
+          </label>
+          <input
+            ref={blog_nameRef}
+            className={styles.input}
+            id="blog_name"
+            type="blog_name"
+            // autoComplete="off"
+            onChange={handleBlogNameChange}
+            placeholder="Please enter your preferred name"
+            value={blog_name}
             required
           />
         </div>
